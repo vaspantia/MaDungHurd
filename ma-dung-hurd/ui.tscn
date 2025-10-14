@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://cduekjfn3qe27"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 135.0
+offset_right = 734.0
+offset_bottom = 182.0
+text = "Bro i am really hard right now"
+
+[node name="TextEdit2" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 127.0
+offset_top = 453.0
+offset_right = 395.0
+offset_bottom = 500.0
+text = "Yes"
+
+[node name="TextEdit3" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 443.0
+offset_top = 255.0
+offset_right = 780.0
+offset_bottom = 302.0
+text = "Do you want to go to prom with me"
+
+[node name="TextEdit4" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 466.0
+offset_right = 988.0
+offset_bottom = 513.0
+text = "no"
+
+[node name="CheckBox" type="CheckBox" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.021000002
+anchor_bottom = 0.066
+offset_left = 235.0
+offset_top = 408.0
+offset_right = 234.808
+offset_bottom = 389.232
+
+[node name="CheckBox2" type="CheckBox" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.021000002
+anchor_bottom = 0.066
+offset_left = 830.0
+offset_top = 420.0
+offset_right = 829.808
+offset_bottom = 401.232
