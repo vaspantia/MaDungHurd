@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godot Project Structure Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        h1 { color: #478cbf; border-bottom: 3px solid #478cbf; padding-bottom: 10px; }
+        h2 { color: #5fb3f6; margin-top: 30px; }
+        h3 { color: #7ac7ff; }
+        .section {
+            background: #2d2d2d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #478cbf;
+        }
+        .folder-structure {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .tree {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .tree-item {
+            display: flex;
+            align-items: center;
+            padding: 6px 0;
+            cursor: pointer;
+            user-select: none;
+        }
+        .tree-item:hover {
+            background: #2d2d2d;
+            border-radius: 4px;
+        }
+        .tree-icon {
+            font-size: 18px;
+            margin-right: 8px;
+            min-width: 20px;
+        }
+        .tree-name {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .tree-desc {
+            margin-left: auto;
+            padding-left: 20px;
+            color: #888;
+            font-size: 12px;
+            font-style: italic;
+        }
+        .indent-0 { padding-left: 0px; }
+        .indent-1 { padding-left: 20px; }
+        .indent-2 { padding-left: 40px; }
+        .indent-3 { padding-left: 60px; }
+        .indent-4 { padding-left: 80px; }
+        .folder { color: #dcdcaa; font-weight: bold; }
+        .file-gd { color: #4ec9b0; }
+        .file-tscn { color: #ce9178; }
+        .file-other { color: #9cdcfe; }
+        .collapsible-section {
+            margin: 20px 0;
+        }
+        .collapsible-header {
+            background: #2d2d2d;
+            padding: 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            border-left: 4px solid #478cbf;
+            transition: all 0.3s;
+        }
+        .collapsible-header:hover {
+            background: #3d3d3d;
+        }
+        .collapsible-header h3 {
+            margin: 0;
+            display: inline;
+        }
+        .toggle-icon {
+            float: right;
+            transition: transform 0.3s;
+        }
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .collapsible-content.active {
+            max-height: 2000px;
+        }
+        .good { color: #4ec9b0; }
+        .bad { color: #f48771; }
+        ul { margin: 10px 0; }
+        li { margin: 8px 0; }
+        code {
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #ce9178;
+        }
+        .tip {
+            background: #2a4a2a;
+            border-left: 4px solid #4ec9b0;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #4a3a2a;
+            border-left: 4px solid #d7ba7d;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .node-tree {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .node-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            margin: 4px 0;
+            border-radius: 4px;
+            border-left: 3px solid #478cbf;
+            background: #252525;
+        }
+        .node-type {
+            color: #4ec9b0;
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 150px;
+        }
+        .node-purpose {
+            color: #888;
+            font-size: 13px;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .comparison-card {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 4px solid;
+        }
+        .gdscript-card {
+            border-top-color: #478cbf;
+        }
+        .cpp-card {
+            border-top-color: #00599C;
+        }
+        .comparison-card h4 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+        .pros-cons {
+            margin: 15px 0;
+        }
+        .pros-cons h5 {
+            margin: 10px 0 5px 0;
+            font-size: 14px;
+        }
+        .pros-cons ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        .pros-cons li {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .step-box {
+            background: #252525;
+            border-left: 4px solid #4ec9b0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .step-number {
+            background: #4ec9b0;
+            color: #000;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .code-card {
+            background: #1a1a1a;
+            border-left: 4px solid #ce9178;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .code-card-title {
+            color: #ce9178;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .code-line {
+            padding: 4px 0;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+        }
+        .code-annotation {
+            color: #888;
+            font-style: italic;
+            margin-left: 20px;
+        }
+        .visual-flow {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .flow-step {
+            display: inline-block;
+            background: #478cbf;
+            color: #fff;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            position: relative;
+        }
+        .flow-arrow {
+            display: inline-block;
+            font-size: 24px;
+            color: #478cbf;
+            margin: 0 10px;
+        }
+        .highlight-box {
+            background: #3d3d3d;
+            border: 2px solid #478cbf;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Godot Project Structure & Best Practices</h1>
+
+    <div class="section">
+        <h2>🤔 GDScript vs C++: Which Should You Use?</h2>
+        
+        <div class="comparison-grid">
+            <div class="comparison-card gdscript-card">
+                <h4>📘 GDScript (Recommended for Beginners)</h4>
+                <p><strong>What is it?</strong> Python-like language built into Godot</p>
+                
+                <div class="pros-cons">
+                    <h5 style="color: #4ec9b0;">✅ PROS:</h5>
+                    <ul>
+                        <li>Super easy to learn</li>
+                        <li>No setup needed - works instantly</li>
+                        <li>Fast to write and test code</li>
+                        <li>All Godot tutorials use it</li>
+                        <li>Hot-reload (see changes instantly)</li>
+                        <li>Perfect for learning game concepts</li>
+                    </ul>
+                    
+                    <h5 style="color: #f48771;">❌ CONS:</h5>
+                    <ul>
+                        <li>Slower than C++ (but fast enough for most games)</li>
+                        <li>Only works in Godot</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <strong>👉 START HERE</strong> if you're new to game development
+                </div>
+            </div>
+            
+            <div class="comparison-card cpp-card">
+                <h4>⚡ C++ (Advanced Performance)</h4>
+                <p><strong>What is it?</strong> Use C++ code in Godot via GDExtension</p>
+                
+                <div class="pros-cons">
+                    <h5 style="color: #4ec9b0;">✅ PROS:</h5>
+                    <ul>
+                        <li>Maximum performance</li>
+                        <li>Reuse existing C++ libraries</li>
+                        <li>Industry-standard language</li>
+                        <li>Great for complex AI, physics</li>
+                    </ul>
+                    
+                    <h5 style="color: #f48771;">❌ CONS:</h5>
+                    <ul>
+                        <li>Complex setup required</li>
+                        <li>Harder to learn</li>
+                        <li>Slower development time</li>
+                        <li>Need to compile code (slow)</li>
+                        <li>More room for crashes/bugs</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <strong>👉 USE LATER</strong> when you need extra performance
+                </div>
+            </div>
+        </div>
+
+        <div class="visual-flow">
+            <h3>📊 Recommended Learning Path</h3>
+            <div class="flow-step">1. Learn GDScript</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">2. Make a Game</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">3. Find Bottlenecks</div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">4. Add C++ Where Needed</div>
+        </div>
+
+        <div class="tip">
+            <strong>💡 Pro Tip:</strong> Most successful Godot games use 95% GDScript and 5% C++ for performance-critical parts. Start simple!
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>⚡ Setting Up C++ in Godot (GDExtension)</h2>
+        
+        <div class="warning">
+            <strong>⚠️ Before You Start:</strong> Make sure you're comfortable with GDScript first! C++ is much harder.
+        </div>
+
+        <div class="step-box">
+            <span class="step-number">1</span>
+            <strong>Install Requirements</strong>
+            <ul>
+                <li>Download <strong>Visual Studio 2022</strong> (Community - free)</li>
+                <li>Install "Desktop development with C++"</li>
+                <li>Install <strong>CMake</strong> (cmake.org)</li>
+                <li>Install <strong>Python 3.x</strong> (already have it)</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <span class="step-number">2</span>
+            <strong>Get GDExtension Template</strong>
+            <div class="code-card">
+                <div class="code-line">git clone https://github.com/godotengine/godot-cpp.git</div>
+                <div class="code-annotation">↑ Downloads C++ bindings for Godot</div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <span class="step-number">3</span>
+            <strong>Project Structure with C++</strong>
+            <div class="tree">
+                <div class="tree-item indent-0">
+                    <span class="tree-icon">📁</span>
+                    <span class="tree-name folder">your_project/</span>
+                </div>
+                <div class="tree-item indent-1">
+                    <span class="tree-icon">📁</span>
+                    <span class="tree-name folder">godot-cpp/</span>
+                    <span class="tree-desc">C++ bindings</span>
+                </div>
+                <div class="tree-item indent-1">
+                    <span class="tree-icon">📁</span>
+                    <span class="tree-name folder">src/</span>
+                    <span class="tree-desc">Your C++ code</span>
+                </div>
+                <div class="tree-item indent-2">
+                    <span class="tree-icon">📄</span>
+                    <span class="tree-name file-other">player.h</span>
+                    <span class="tree-desc">Header file</span>
+                </div>
+                <div class="tree-item indent-2">
+                    <span class="tree-icon">📄</span>
+                    <span class="tree-name file-other">player.cpp</span>
+                    <span class="tree-desc">Implementation</span>
+                </div>
+                <div class="tree-item indent-1">
+                    <span class="tree-icon">📄</span>
+                    <span class="tree-name file-other">SConstruct</span>
+                    <span class="tree-desc">Build script</span>
+                </div>
+                <div class="tree-item indent-1">
+                    <span class="tree-icon">📁</span>
+                    <span class="tree-name folder">bin/</span>
+                    <span class="tree-desc">Compiled .dll files</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <span class="step-number">4</span>
+            <strong>Create Player in C++</strong>
+            
+            <div class="code-card">
+                <div class="code-card-title">📄 player.h (Header File)</div>
+                <div class="code-line">#ifndef PLAYER_H</div>
+                <div class="code-line">#define PLAYER_H</div>
+                <div class="code-line">#include &lt;godot_cpp/classes/character_body2d.hpp&gt;</div>
+                <div class="code-annotation">↑ Import Godot's CharacterBody2D class</div>
+                <br>
+                <div class="code-line">class Player : public CharacterBody2D {</div>
+                <div class="code-annotation">↑ Inherit from CharacterBody2D (like GDScript "extends")</div>
+                <div class="code-line" style="padding-left: 20px;">GDCLASS(Player, CharacterBody2D)</div>
+                <div class="code-annotation">↑ Tell Godot this is a custom class</div>
+                <br>
+                <div class="code-line">private:</div>
+                <div class="code-line" style="padding-left: 20px;">float speed = 300.0f;</div>
+                <br>
+                <div class="code-line">public:</div>
+                <div class="code-line" style="padding-left: 20px;">void _physics_process(double delta);</div>
+                <div class="code-line">};</div>
+                <div class="code-line">#endif</div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">📄 player.cpp (Implementation)</div>
+                <div class="code-line">#include "player.h"</div>
+                <div class="code-line">#include &lt;godot_cpp/core/class_db.hpp&gt;</div>
+                <br>
+                <div class="code-line">void Player::_physics_process(double delta) {</div>
+                <div class="code-line" style="padding-left: 20px;">Vector2 velocity = get_velocity();</div>
+                <div class="code-annotation">↑ Get current velocity</div>
+                <div class="code-line" style="padding-left: 20px;">float direction = Input::get_axis("ui_left", "ui_right");</div>
+                <div class="code-line" style="padding-left: 20px;">velocity.x = direction * speed;</div>
+                <div class="code-line" style="padding-left: 20px;">set_velocity(velocity);</div>
+                <div class="code-line" style="padding-left: 20px;">move_and_slide();</div>
+                <div class="code-line">}</div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <span class="step-number">5</span>
+            <strong>Compile the C++ Code</strong>
+            <div class="code-card">
+                <div class="code-line">scons platform=windows</div>
+                <div class="code-annotation">↑ Creates .dll file in bin/ folder</div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <span class="step-number">6</span>
+            <strong>Use in Godot</strong>
+            <ul>
+                <li>Create <code>.gdextension</code> file to load your C++ class</li>
+                <li>In Godot, create node and select your C++ "Player" class</li>
+                <li>Works exactly like GDScript nodes!</li>
+            </ul>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="comparison-card gdscript-card">
+                <h4>GDScript Version</h4>
+                <div class="code-line">extends CharacterBody2D</div>
+                <div class="code-line">const SPEED = 300.0</div>
+                <div class="code-line">func _physics_process(delta):</div>
+                <div class="code-line" style="padding-left: 20px;">velocity.x = Input.get_axis(...) * SPEED</div>
+                <div class="code-line" style="padding-left: 20px;">move_and_slide()</div>
+                <br>
+                <div style="color: #4ec9b0;">✅ 5 lines, instant testing</div>
+            </div>
+            
+            <div class="comparison-card cpp-card">
+                <h4>C++ Version</h4>
+                <div class="code-line">// player.h (20 lines)</div>
+                <div class="code-line">// player.cpp (30 lines)</div>
+                <div class="code-line">// Build script</div>
+                <div class="code-line">// Compile time: 2-5 minutes</div>
+                <div class="code-line">// .gdextension config</div>
+                <br>
+                <div style="color: #f48771;">⚠️ 50+ lines, 5min compile</div>
+                <div style="color: #4ec9b0;">✅ 2-3x faster performance</div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>🎯 When to Actually Use C++:</strong>
+            <ul>
+                <li><strong>Heavy calculations</strong> - AI pathfinding for 1000+ units</li>
+                <li><strong>Complex physics</strong> - Custom physics simulations</li>
+                <li><strong>Existing libraries</strong> - Want to use C++ networking library</li>
+                <li><strong>Mobile performance</strong> - Need every bit of speed</li>
+            </ul>
+            <br>
+            <strong>❌ Don't use C++ for:</strong>
+            <ul>
+                <li>UI code - GDScript is perfect</li>
+                <li>Simple game logic - Not worth the complexity</li>
+                <li>Prototyping - Way too slow</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.textContent = '▶';
+            } else {
+                content.classList.add('active');
+                icon.textContent = '▼';
+            }
+        }
+        
+        // Expand all by default on load
+        window.onload = function() {
+            document.querySelectorAll('.collapsible-content').forEach(content => {
+                content.classList.add('active');
+            });
+        }
+    </script>
+
+    <div class="section">
+        <h2>📁 Recommended Folder Structure</h2>
+        <p><strong>Click on sections below to expand/collapse</strong></p>
+
+        <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+                <h3>🎨 Assets Folder</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="collapsible-content active">
+                <div class="tree">
+                    <div class="tree-item indent-0">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">assets/</span>
+                        <span class="tree-desc">All game resources</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">audio/</span>
+                        <span class="tree-desc">Sound files</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">music/</span>
+                        <span class="tree-desc">Background music (.ogg, .mp3)</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">sfx/</span>
+                        <span class="tree-desc">Sound effects</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">fonts/</span>
+                        <span class="tree-desc">UI fonts (.ttf, .otf)</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">textures/</span>
+                        <span class="tree-desc">Images & sprites</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">characters/</span>
+                        <span class="tree-desc">Player & enemy sprites</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">environments/</span>
+                        <span class="tree-desc">Backgrounds, tilesets</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">ui/</span>
+                        <span class="tree-desc">Buttons, icons, HUD elements</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">effects/</span>
+                        <span class="tree-desc">Particles, VFX</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">models/</span>
+                        <span class="tree-desc">3D models (.glb, .gltf)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+                <h3>🎬 Scenes Folder</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="collapsible-content active">
+                <div class="tree">
+                    <div class="tree-item indent-0">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">scenes/</span>
+                        <span class="tree-desc">Game objects & levels</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">characters/</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">player/</span>
+                    </div>
+                    <div class="tree-item indent-3">
+                        <span class="tree-icon">🎭</span>
+                        <span class="tree-name file-tscn">player.tscn</span>
+                        <span class="tree-desc">Player scene</span>
+                    </div>
+                    <div class="tree-item indent-3">
+                        <span class="tree-icon">📜</span>
+                        <span class="tree-name file-gd">player.gd</span>
+                        <span class="tree-desc">Player logic</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">enemies/</span>
+                    </div>
+                    <div class="tree-item indent-3">
+                        <span class="tree-icon">🎭</span>
+                        <span class="tree-name file-tscn">enemy_base.tscn</span>
+                        <span class="tree-desc">Base enemy template</span>
+                    </div>
+                    <div class="tree-item indent-3">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">specific_enemies/</span>
+                        <span class="tree-desc">Enemy variants</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">levels/</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🗺️</span>
+                        <span class="tree-name file-tscn">level_01.tscn</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🗺️</span>
+                        <span class="tree-name file-tscn">level_02.tscn</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">ui/</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🎭</span>
+                        <span class="tree-name file-tscn">main_menu.tscn</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🎭</span>
+                        <span class="tree-name file-tscn">hud.tscn</span>
+                        <span class="tree-desc">Health, score display</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🎭</span>
+                        <span class="tree-name file-tscn">pause_menu.tscn</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">🎭</span>
+                        <span class="tree-name file-tscn">main.tscn</span>
+                        <span class="tree-desc">Entry point scene</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="collapsible-section">
+            <div class="collapsible-header" onclick="toggleSection(this)">
+                <h3>📜 Scripts Folder</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="collapsible-content active">
+                <div class="tree">
+                    <div class="tree-item indent-0">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">scripts/</span>
+                        <span class="tree-desc">Standalone scripts</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">autoload/</span>
+                        <span class="tree-desc">Global singletons</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🌐</span>
+                        <span class="tree-name file-gd">game_manager.gd</span>
+                        <span class="tree-desc">Game state, score</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🔊</span>
+                        <span class="tree-name file-gd">audio_manager.gd</span>
+                        <span class="tree-desc">Music & SFX control</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">💾</span>
+                        <span class="tree-name file-gd">save_system.gd</span>
+                        <span class="tree-desc">Save/load game data</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">components/</span>
+                        <span class="tree-desc">Reusable logic</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">❤️</span>
+                        <span class="tree-name file-gd">health_component.gd</span>
+                        <span class="tree-desc">HP system</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">⚔️</span>
+                        <span class="tree-name file-gd">damage_component.gd</span>
+                        <span class="tree-desc">Damage dealing</span>
+                    </div>
+                    <div class="tree-item indent-1">
+                        <span class="tree-icon">📁</span>
+                        <span class="tree-name folder">utilities/</span>
+                    </div>
+                    <div class="tree-item indent-2">
+                        <span class="tree-icon">🔧</span>
+                        <span class="tree-name file-gd">helper_functions.gd</span>
+                        <span class="tree-desc">Utility functions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tree">
+            <div class="tree-item indent-0">
+                <span class="tree-icon">⚙️</span>
+                <span class="tree-name file-other">project.godot</span>
+                <span class="tree-desc">Project configuration</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🏃 Player Scene Structure</h2>
+        
+        <h3>Node Hierarchy Explained:</h3>
+        <div class="node-tree">
+            <div class="node-item indent-0">
+                <span class="node-type">CharacterBody2D</span>
+                <span class="node-purpose">Root - handles physics & movement</span>
+            </div>
+            <div class="node-item indent-1">
+                <span class="node-type">├─ CollisionShape2D</span>
+                <span class="node-purpose">Defines hitbox for collisions</span>
+            </div>
+            <div class="node-item indent-1">
+                <span class="node-type">├─ AnimatedSprite2D</span>
+                <span class="node-purpose">Player graphics & animations</span>
+            </div>
+            <div class="node-item indent-1">
+                <span class="node-type">├─ Camera2D</span>
+                <span class="node-purpose">Follows player</span>
+            </div>
+            <div class="node-item indent-1">
+                <span class="node-type">├─ Components (Node)</span>
+                <span class="node-purpose">Container for reusable logic</span>
+            </div>
+            <div class="node-item indent-2">
+                <span class="node-type">│  ├─ HealthComponent</span>
+                <span class="node-purpose">Manages HP, death</span>
+            </div>
+            <div class="node-item indent-2">
+                <span class="node-type">│  ├─ DamageComponent</span>
+                <span class="node-purpose">Handles damage dealing (Area2D)</span>
+            </div>
+            <div class="node-item indent-2">
+                <span class="node-type">│  └─ InventoryComponent</span>
+                <span class="node-purpose">Item storage</span>
+            </div>
+            <div class="node-item indent-1">
+                <span class="node-type">└─ Audio (Node)</span>
+                <span class="node-purpose">Sound effects container</span>
+            </div>
+            <div class="node-item indent-2">
+                <span class="node-type">   ├─ FootstepAudio</span>
+                <span class="node-purpose">Walking sounds</span>
+            </div>
+            <div class="node-item indent-2">
+                <span class="node-type">   └─ JumpAudio</span>
+                <span class="node-purpose">Jump sound</span>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>💡 Why this structure?</strong>
+            <ul>
+                <li><strong>CharacterBody2D root</strong> = built-in physics movement</li>
+                <li><strong>Components folder</strong> = reuse logic across different characters</li>
+                <li><strong>Separate Audio node</strong> = organize multiple sound players</li>
+            </ul>
+        </div>
+
+        <h3>Player Script (player.gd):</h3>
+        
+        <div class="code-card">
+            <div class="code-card-title">📦 SECTION 1: Inheritance</div>
+            <div class="code-line"><span class="good">extends CharacterBody2D</span></div>
+            <div class="code-annotation">↑ This makes your script control a CharacterBody2D node (physics body)</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">🔢 SECTION 2: Constants (Never Change)</div>
+            <div class="code-line">const SPEED = 300.0</div>
+            <div class="code-annotation">↑ Player moves 300 pixels per second</div>
+            <div class="code-line">const JUMP_VELOCITY = -400.0</div>
+            <div class="code-annotation">↑ Negative = jumps upward (Y axis flipped in Godot)</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">⚙️ SECTION 3: Exported Variables (Editable in Inspector)</div>
+            <div class="code-line">@export var max_health: int = 100</div>
+            <div class="code-annotation">↑ You can change this in Godot editor without editing code!</div>
+            <div class="code-line">@export var damage: int = 10</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">🔗 SECTION 4: Node References (Connect to Scene Nodes)</div>
+            <div class="code-line">@onready var sprite = $AnimatedSprite2D</div>
+            <div class="code-annotation">↑ Finds the AnimatedSprite2D child node when scene loads</div>
+            <div class="code-line">@onready var health_component = $Components/HealthComponent</div>
+            <div class="code-annotation">↑ $ means "find child node" - / goes deeper in tree</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">📊 SECTION 5: State Variables</div>
+            <div class="code-line">var is_attacking: bool = false</div>
+            <div class="code-annotation">↑ Tracks if player is currently attacking</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">🎬 SECTION 6: Lifecycle Functions</div>
+            <div class="code-line"><span class="good">func _ready():</span></div>
+            <div class="code-annotation">↑ Runs ONCE when scene starts</div>
+            <div class="code-line" style="padding-left: 20px;">health_component.health_changed.connect(_on_health_changed)</div>
+            <div class="code-annotation">↑ Listen for signal from health component</div>
+            <br>
+            <div class="code-line"><span class="good">func _physics_process(delta):</span></div>
+            <div class="code-annotation">↑ Runs 60 times per second - use for movement!</div>
+            <div class="code-line" style="padding-left: 20px;">handle_movement(delta)</div>
+            <div class="code-line" style="padding-left: 20px;">move_and_slide()</div>
+            <div class="code-annotation">↑ Actually moves the character using velocity</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">🎮 SECTION 7: Custom Functions</div>
+            <div class="code-line"><span class="good">func handle_movement(delta):</span></div>
+            <div class="code-line" style="padding-left: 20px;">var direction = Input.get_axis("ui_left", "ui_right")</div>
+            <div class="code-annotation">↑ Returns -1 (left), 0 (nothing), or 1 (right)</div>
+            <div class="code-line" style="padding-left: 20px;">velocity.x = direction * SPEED</div>
+            <div class="code-annotation">↑ Set horizontal speed based on input</div>
+            <br>
+            <div class="code-line"><span class="good">func _on_health_changed(new_health):</span></div>
+            <div class="code-annotation">↑ Called when health component emits signal</div>
+            <div class="code-line" style="padding-left: 20px;">print("Health: ", new_health)</div>
+        </div>
+
+        <div class="tip">
+            <strong>📚 Code Order = Best Practice:</strong>
+            <ol>
+                <li>extends → What type of node this is</li>
+                <li>const → Values that never change</li>
+                <li>@export → Values you can edit in inspector</li>
+                <li>@onready → References to child nodes</li>
+                <li>var → Variables that change during gameplay</li>
+                <li>_ready() → Setup code</li>
+                <li>_physics_process() → Movement & physics</li>
+                <li>Custom functions → Your game logic</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>✅ Best Practices</h2>
+        
+        <h3>📝 Naming Conventions - Why They're Different:</h3>
+        
+        <div class="comparison-grid">
+            <div class="code-card">
+                <div class="code-card-title">📁 Files & Folders</div>
+                <div class="code-line"><span class="good">snake_case</span></div>
+                <div class="code-line">player_controller.gd</div>
+                <div class="code-line">enemy_spawner.tscn</div>
+                <div class="code-line">health_component.gd</div>
+                <div class="code-annotation">↑ Easy to read, works on all OS, avoids spaces</div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">🎨 Classes</div>
+                <div class="code-line"><span class="good">PascalCase</span></div>
+                <div class="code-line">class_name PlayerController</div>
+                <div class="code-line">class_name EnemySpawner</div>
+                <div class="code-line">class_name HealthComponent</div>
+                <div class="code-annotation">↑ Matches industry standard (C++, C#, Java)</div>
+            </div>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="code-card">
+                <div class="code-card-title">📊 Variables & Functions</div>
+                <div class="code-line"><span class="good">snake_case</span></div>
+                <div class="code-line">var player_health: int</div>
+                <div class="code-line">var is_jumping: bool</div>
+                <div class="code-line">func take_damage(amount):</div>
+                <div class="code-line">func calculate_distance():</div>
+                <div class="code-annotation">↑ Python-style (GDScript is Python-like)</div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">🔔 Signals</div>
+                <div class="code-line"><span class="good">snake_case</span></div>
+                <div class="code-line">signal health_changed</div>
+                <div class="code-line">signal player_died</div>
+                <div class="code-line">signal item_collected</div>
+                <div class="code-annotation">↑ Same as variables - they're like special variables</div>
+            </div>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="code-card">
+                <div class="code-card-title">🔢 Constants</div>
+                <div class="code-line"><span class="good">UPPER_CASE</span></div>
+                <div class="code-line">const MAX_SPEED = 500</div>
+                <div class="code-line">const JUMP_FORCE = -400</div>
+                <div class="code-line">const GRAVITY = 980</div>
+                <div class="code-annotation">↑ SCREAMS "DON'T CHANGE ME!" - easy to spot</div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">⚙️ Enums</div>
+                <div class="code-line"><span class="good">PascalCase + UPPER_CASE</span></div>
+                <div class="code-line">enum State { IDLE, RUNNING, JUMPING }</div>
+                <div class="code-line">enum Direction { NORTH, SOUTH, EAST, WEST }</div>
+                <div class="code-annotation">↑ Enum name = PascalCase, values = UPPER_CASE</div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🤔 Why Are Variables & Functions Both snake_case?</h3>
+            <p><strong>Short Answer:</strong> GDScript follows Python style, where everything is lowercase with underscores.</p>
+            
+            <div class="comparison-grid">
+                <div class="code-card">
+                    <div class="code-card-title">❌ BAD - Can't Tell Them Apart</div>
+                    <div class="code-line">health_changed  <span style="color: #888;">← Is this a variable or signal?</span></div>
+                    <div class="code-line">take_damage  <span style="color: #888;">← Is this a function or variable?</span></div>
+                </div>
+
+                <div class="code-card">
+                    <div class="code-card-title">✅ GOOD - Context Makes It Clear</div>
+                    <div class="code-line"><span class="good">signal</span> health_changed  <span style="color: #888;">← Signal keyword!</span></div>
+                    <div class="code-line"><span class="good">var</span> health_changed = false  <span style="color: #888;">← var keyword!</span></div>
+                    <div class="code-line"><span class="good">func</span> take_damage():  <span style="color: #888;">← func keyword + ()</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>💡 Pro Tips for Clarity:</strong>
+            <ul>
+                <li><strong>Booleans:</strong> Start with <code>is_</code>, <code>has_</code>, <code>can_</code>
+                    <br><code>var is_alive</code>, <code>var has_key</code>, <code>can_jump</code>
+                </li>
+                <li><strong>Private/Internal:</strong> Start with <code>_underscore</code>
+                    <br><code>var _internal_timer</code>, <code>func _calculate_something()</code>
+                </li>
+                <li><strong>Signal handlers:</strong> Start with <code>_on_</code>
+                    <br><code>func _on_button_pressed()</code>, <code>func _on_health_changed()</code>
+                </li>
+                <li><strong>Nodes:</strong> Descriptive names
+                    <br><code>@onready var health_bar = $UI/HealthBar</code>
+                </li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>📋 Real Example - All Together:</h3>
+            <div class="code-card">
+                <div class="code-line"><span class="good">extends</span> CharacterBody2D</div>
+                <div class="code-line"><span class="good">class_name</span> Player  <span style="color: #888;">← PascalCase</span></div>
+                <br>
+                <div class="code-line"><span class="good">signal</span> health_changed(new_health)  <span style="color: #888;">← snake_case</span></div>
+                <div class="code-line"><span class="good">signal</span> player_died  <span style="color: #888;">← snake_case</span></div>
+                <br>
+                <div class="code-line"><span class="good">const</span> MAX_HEALTH = 100  <span style="color: #888;">← UPPER_CASE</span></div>
+                <div class="code-line"><span class="good">const</span> SPEED = 300.0  <span style="color: #888;">← UPPER_CASE</span></div>
+                <br>
+                <div class="code-line"><span class="good">enum</span> State { IDLE, RUNNING, JUMPING }  <span style="color: #888;">← Pascal + UPPER</span></div>
+                <br>
+                <div class="code-line"><span class="good">@export</span> var max_speed: float = 500.0  <span style="color: #888;">← snake_case</span></div>
+                <div class="code-line"><span class="good">var</span> current_health: int  <span style="color: #888;">← snake_case</span></div>
+                <div class="code-line"><span class="good">var</span> is_alive: bool = true  <span style="color: #888;">← snake_case with is_</span></div>
+                <div class="code-line"><span class="good">var</span> _internal_timer: float  <span style="color: #888;">← snake_case with _ (private)</span></div>
+                <br>
+                <div class="code-line"><span class="good">@onready var</span> sprite = $AnimatedSprite2D  <span style="color: #888;">← snake_case</span></div>
+                <br>
+                <div class="code-line"><span class="good">func</span> take_damage(amount: int):  <span style="color: #888;">← snake_case</span></div>
+                <div class="code-line" style="padding-left: 20px;">current_health -= amount</div>
+                <div class="code-line" style="padding-left: 20px;">health_changed.emit(current_health)</div>
+                <div class="code-line" style="padding-left: 20px;">if current_health <= 0:</div>
+                <div class="code-line" style="padding-left: 40px;">_die()</div>
+                <br>
+                <div class="code-line"><span class="good">func</span> _die():  <span style="color: #888;">← snake_case with _ (private)</span></div>
+                <div class="code-line" style="padding-left: 20px;">is_alive = false</div>
+                <div class="code-line" style="padding-left: 20px;">player_died.emit()</div>
+                <br>
+                <div class="code-line"><span class="good">func</span> _on_health_changed(new_health):  <span style="color: #888;">← snake_case, _on_ prefix</span></div>
+                <div class="code-line" style="padding-left: 20px;">print("Health is now: ", new_health)</div>
+            </div>
+        </div>
+
+        <h3>Scene Organization:</h3>
+        <ul>
+            <li><span class="good">✓</span> Keep scenes with their scripts in the same folder</li>
+            <li><span class="good">✓</span> One main script per scene</li>
+            <li><span class="good">✓</span> Use scene inheritance for variants</li>
+            <li><span class="good">✓</span> Create reusable components</li>
+        </ul>
+
+        <div class="tip">
+            <strong>💡 Tip:</strong> Use <code>@onready</code> for node references to avoid null errors and improve performance
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔧 Component-Based Design</h2>
+        <p><strong>What is it?</strong> Breaking your game into small, reusable pieces instead of one giant script.</p>
+        
+        <div class="visual-flow">
+            <h3>🤔 Why Use Components?</h3>
+            <div class="flow-step">Reusable</div>
+            <span class="flow-arrow">+</span>
+            <div class="flow-step">Easy to Test</div>
+            <span class="flow-arrow">+</span>
+            <div class="flow-step">Mix & Match</div>
+            <span class="flow-arrow">=</span>
+            <div class="flow-step">Fast Development</div>
+        </div>
+
+        <h3>Example: HealthComponent.gd</h3>
+        
+        <div class="code-card">
+            <div class="code-card-title">📦 Inheritance & Class Name</div>
+            <div class="code-line">extends Node</div>
+            <div class="code-annotation">↑ Component = plain Node (no physics, just logic)</div>
+            <div class="code-line">class_name HealthComponent</div>
+            <div class="code-annotation">↑ Now you can reuse this in any scene!</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">🔔 Signals - Tell Others What Happens</div>
+            <div class="code-line">signal health_changed(new_health: int)</div>
+            <div class="code-annotation">↑ Fires when health changes - UI can listen to this</div>
+            <div class="code-line">signal died()</div>
+            <div class="code-annotation">↑ Fires when health = 0 - Player can listen to this</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">⚙️ Configurable Variables</div>
+            <div class="code-line">@export var max_health: int = 100</div>
+            <div class="code-annotation">↑ Set different max health for player vs enemies</div>
+            <div class="code-line">var current_health: int</div>
+            <div class="code-annotation">↑ Tracks current health value</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">🎬 Setup</div>
+            <div class="code-line">func _ready():</div>
+            <div class="code-line" style="padding-left: 20px;">current_health = max_health</div>
+            <div class="code-annotation">↑ Start at full health</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">⚔️ Take Damage Function</div>
+            <div class="code-line">func take_damage(amount: int):</div>
+            <div class="code-line" style="padding-left: 20px;">current_health = max(0, current_health - amount)</div>
+            <div class="code-annotation">↑ Subtract damage, but never go below 0</div>
+            <div class="code-line" style="padding-left: 20px;">health_changed.emit(current_health)</div>
+            <div class="code-annotation">↑ Tell everyone health changed (UI updates!)</div>
+            <div class="code-line" style="padding-left: 20px;">if current_health == 0:</div>
+            <div class="code-line" style="padding-left: 40px;">died.emit()</div>
+            <div class="code-annotation">↑ Tell everyone we died</div>
+        </div>
+
+        <div class="code-card">
+            <div class="code-card-title">❤️ Heal Function</div>
+            <div class="code-line">func heal(amount: int):</div>
+            <div class="code-line" style="padding-left: 20px;">current_health = min(max_health, current_health + amount)</div>
+            <div class="code-annotation">↑ Add health, but don't exceed max</div>
+            <div class="code-line" style="padding-left: 20px;">health_changed.emit(current_health)</div>
+            <div class="code-annotation">↑ Update UI</div>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎯 How to Use This Component</h3>
+            <div class="comparison-grid">
+                <div>
+                    <h4>1️⃣ Add to Player Scene</h4>
+                    <div class="node-tree">
+                        <div class="node-item">Player</div>
+                        <div class="node-item indent-1">└─ HealthComponent</div>
+                    </div>
+                    <p>In Inspector: Set max_health = 100</p>
+                </div>
+                <div>
+                    <h4>2️⃣ Add to Enemy Scene</h4>
+                    <div class="node-tree">
+                        <div class="node-item">Enemy</div>
+                        <div class="node-item indent-1">└─ HealthComponent</div>
+                    </div>
+                    <p>In Inspector: Set max_health = 30</p>
+                </div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">📜 Use in Parent Script</div>
+                <div class="code-line"># In player.gd</div>
+                <div class="code-line">@onready var health = $HealthComponent</div>
+                <br>
+                <div class="code-line">func _ready():</div>
+                <div class="code-line" style="padding-left: 20px;">health.died.connect(_on_player_died)</div>
+                <div class="code-annotation">↑ Listen for death signal</div>
+                <br>
+                <div class="code-line">func hit_by_enemy():</div>
+                <div class="code-line" style="padding-left: 20px;">health.take_damage(10)</div>
+                <div class="code-annotation">↑ Call component function</div>
+                <br>
+                <div class="code-line">func _on_player_died():</div>
+                <div class="code-line" style="padding-left: 20px;">print("Game Over!")</div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>💡 Component Benefits:</strong>
+            <ul>
+                <li>✅ <strong>Write once, use everywhere</strong> - Player, enemies, destructible objects all use same component</li>
+                <li>✅ <strong>Easy to test</strong> - Test health logic separately from player movement</li>
+                <li>✅ <strong>Modular</strong> - Add/remove features by adding/removing components</li>
+                <li>✅ <strong>No code duplication</strong> - One place to fix bugs</li>
+            </ul>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🎨 More Component Ideas:</h3>
+            <ul>
+                <li><strong>DamageComponent</strong> - Handles dealing damage to others (Area2D that hurts things)</li>
+                <li><strong>MovementComponent</strong> - Handles acceleration, friction, max speed</li>
+                <li><strong>InventoryComponent</strong> - Manages items collection</li>
+                <li><strong>StateMachineComponent</strong> - Manages states (idle, running, jumping)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Autoload (Singletons)</h2>
+        <p><strong>What is Autoload?</strong> Scripts that load when game starts and exist in every scene.</p>
+        
+        <div class="visual-flow">
+            <h3>Normal Script vs Autoload</h3>
+            <div style="margin: 20px 0;">
+                <div class="flow-step" style="background: #888;">Normal Script</div>
+                <div style="color: #888; margin: 10px 0;">Exists only in its scene<br>Dies when scene changes</div>
+            </div>
+            <div style="margin: 20px 0;">
+                <div class="flow-step">Autoload (Singleton)</div>
+                <div style="color: #4ec9b0; margin: 10px 0;">Exists everywhere<br>Never dies<br>Access from any script</div>
+            </div>
+        </div>
+
+        <div class="highlight-box">
+            <h3>🌐 Common Autoload Systems</h3>
+            
+            <div class="code-card">
+                <div class="code-card-title">🎮 GameManager.gd</div>
+                <div class="code-line"># Handles game state, score, level</div>
+                <div class="code-line">extends Node</div>
+                <br>
+                <div class="code-line">var score: int = 0</div>
+                <div class="code-line">var current_level: int = 1</div>
+                <br>
+                <div class="code-line">func add_score(points: int):</div>
+                <div class="code-line" style="padding-left: 20px;">score += points</div>
+                <br>
+                <div class="code-annotation">↑ Access anywhere: GameManager.add_score(10)</div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">🔊 AudioManager.gd</div>
+                <div class="code-line"># Controls music and sound effects</div>
+                <div class="code-line">extends Node</div>
+                <br>
+                <div class="code-line">func play_music(track: String):</div>
+                <div class="code-line" style="padding-left: 20px;">$MusicPlayer.stream = load("res://audio/" + track)</div>
+                <div class="code-line" style="padding-left: 20px;">$MusicPlayer.play()</div>
+                <br>
+                <div class="code-line">func play_sfx(sound: String):</div>
+                <div class="code-line" style="padding-left: 20px;">$SFXPlayer.stream = load("res://audio/sfx/" + sound)</div>
+                <div class="code-line" style="padding-left: 20px;">$SFXPlayer.play()</div>
+                <br>
+                <div class="code-annotation">↑ Use: AudioManager.play_sfx("jump.wav")</div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">💾 SaveSystem.gd</div>
+                <div class="code-line"># Save and load player data</div>
+                <div class="code-line">extends Node</div>
+                <br>
+                <div class="code-line">func save_game(data: Dictionary):</div>
+                <div class="code-line" style="padding-left: 20px;">var file = FileAccess.open("user://save.dat", FileAccess.WRITE)</div>
+                <div class="code-line" style="padding-left: 20px;">file.store_var(data)</div>
+                <br>
+                <div class="code-line">func load_game() -> Dictionary:</div>
+                <div class="code-line" style="padding-left: 20px;">var file = FileAccess.open("user://save.dat", FileAccess.READ)</div>
+                <div class="code-line" style="padding-left: 20px;">return file.get_var()</div>
+                <br>
+                <div class="code-annotation">↑ Use: SaveSystem.save_game({"score": 100})</div>
+            </div>
+
+            <div class="code-card">
+                <div class="code-card-title">📡 EventBus.gd</div>
+                <div class="code-line"># Global event system (signals anyone can listen to)</div>
+                <div class="code-line">extends Node</div>
+                <br>
+                <div class="code-line">signal player_hit(damage)</div>
+                <div class="code-line">signal coin_collected(amount)</div>
+                <div class="code-line">signal level_completed()</div>
+                <br>
+                <div class="code-annotation">↑ Emit: EventBus.coin_collected.emit(1)</div>
+                <div class="code-annotation">↑ Listen: EventBus.coin_collected.connect(_on_coin)</div>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <span class="step-number">📋</span>
+            <strong>How to Set Up Autoload</strong>
+            <ol>
+                <li>Create script (e.g., <code>game_manager.gd</code>)</li>
+                <li>Go to <strong>Project → Project Settings → Autoload</strong></li>
+                <li>Add script path: <code>res://scripts/autoload/game_manager.gd</code></li>
+                <li>Set name: <code>GameManager</code></li>
+                <li>Click Add</li>
+                <li>Now use anywhere: <code>GameManager.score = 100</code></li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Warning: Don't Overuse Autoloads!</strong>
+            <div class="comparison-grid">
+                <div class="code-card">
+                    <div class="code-card-title">✅ GOOD - Use Autoload For:</div>
+                    <ul style="padding-left: 20px;">
+                        <li>Game state (score, lives)</li>
+                        <li>Audio system</li>
+                        <li>Save/load system</li>
+                        <li>Global events</li>
+                        <li>Settings/config</li>
+                    </ul>
+                </div>
+                <div class="code-card">
+                    <div class="code-card-title">❌ BAD - Don't Use For:</div>
+                    <ul style="padding-left: 20px;">
+                        <li>Player logic (use scene)</li>
+                        <li>Enemy AI (use scene)</li>
+                        <li>Level-specific code</li>
+                        <li>UI elements</li>
+                        <li>"Just because it's convenient"</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 10px;"><strong>Why?</strong> Too many autoloads = hard to debug, memory waste, tightly coupled code</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📝 Code Organization Tips</h2>
+        
+        <div class="highlight-box">
+            <h3>📋 Script Structure Order (Always Follow This!)</h3>
+            <div class="visual-flow">
+                <div class="flow-step" style="background: #478cbf; display: block; margin: 10px 0;">1. extends</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #4ec9b0; display: block; margin: 10px 0;">2. class_name</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #ce9178; display: block; margin: 10px 0;">3. signals</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #dcdcaa; display: block; margin: 10px 0;">4. constants</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #9cdcfe; display: block; margin: 10px 0;">5. @export variables</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #c586c0; display: block; margin: 10px 0;">6. regular variables</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #4ec9b0; display: block; margin: 10px 0;">7. @onready variables</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #478cbf; display: block; margin: 10px 0;">8. _ready(), _process(), etc.</div>
+                <span class="flow-arrow" style="display: block; margin: 5px 0;">↓</span>
+                <div class="flow-step" style="background: #888; display: block; margin: 10px 0;">9. custom functions</div>
+            </div>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="code-card">
+                <div class="code-card-title">✅ GOOD</div>
+                <div class="code-line"><span class="good">var speed: float = 5.0</span></div>
+                <div class="code-annotation">↑ Type hint = catches errors early</div>
+                <br>
+                <div class="code-line"><span class="good">@onready var sprite = $Sprite2D</span></div>
+                <div class="code-annotation">↑ Gets node when ready (safe)</div>
+                <br>
+                <div class="code-line"><span class="good">health_component.died.connect(_on_died)</span></div>
+                <div class="code-annotation">↑ Signals = clean communication</div>
+            </div>
+            
+            <div class="code-card">
+                <div class="code-card-title">❌ BAD</div>
+                <div class="code-line"><span class="bad">var speed = 5</span></div>
+                <div class="code-annotation">↑ No type hint = bugs hide</div>
+                <br>
+                <div class="code-line"><span class="bad">var sprite = $Sprite2D</span></div>
+                <div class="code-annotation">↑ Gets node too early = crash!</div>
+                <br>
+                <div class="code-line"><span class="bad">get_node("../../../Enemy").hp -= 10</span></div>
+                <div class="code-annotation">↑ Brittle path = breaks easily</div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>💡 More Best Practices:</strong>
+            <ul>
+                <li><strong>Group related functions</strong> - All movement functions together, all combat together</li>
+                <li><strong>Comment complex logic</strong> - Explain WHY, not what</li>
+                <li><strong>Use signals</strong> - Better than calling parent.parent.function()</li>
+                <li><strong>Keep functions small</strong> - If it doesn't fit on screen, split it</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🎬 Scene vs Script - When to Use What?</h2>
+        
+        <div class="comparison-grid">
+            <div class="highlight-box">
+                <h3>✅ Scene + Script Together</h3>
+                <p><strong>Use when:</strong> The code controls a visual thing</p>
+                <ul>
+                    <li>🏃 <strong>Characters</strong> - player.tscn + player.gd</li>
+                    <li>👾 <strong>Enemies</strong> - enemy.tscn + enemy.gd</li>
+                    <li>📦 <strong>Items</strong> - coin.tscn + coin.gd</li>
+                    <li>🎯 <strong>Interactive objects</strong> - door.tscn + door.gd</li>
+                    <li>🖼️ <strong>UI with logic</strong> - menu.tscn + menu.gd</li>
+                </ul>
+                <div class="code-annotation">Each scene is self-contained and reusable</div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>✅ Script Only (No Scene)</h3>
+                <p><strong>Use when:</strong> Pure logic, no visuals</p>
+                <ul>
+                    <li>🔧 <strong>Utility functions</strong> - math_helpers.gd</li>
+                    <li>🌐 <strong>Autoload singletons</strong> - game_manager.gd</li>
+                    <li>📊 <strong>Data classes</strong> - inventory_item.gd</li>
+                    <li>❤️ <strong>Components</strong> - health_component.gd</li>
+                    <li>🤖 <strong>State machines</strong> - state_machine.gd</li>
+                </ul>
+                <div class="code-annotation">Logic that gets attached to other scenes</div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>🎯 Rule of Thumb:</strong> If you can see it = Scene + Script. If it's just logic = Script only.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🚀 Quick Start Checklist</h2>
+        <ul>
+            <li>☐ Organize assets by type (audio, textures, fonts)</li>
+            <li>☐ Group scenes by category (characters, levels, ui)</li>
+            <li>☐ Create reusable components</li>
+            <li>☐ Set up autoload singletons for global systems</li>
+            <li>☐ Use consistent naming conventions</li>
+            <li>☐ Keep related files together</li>
+            <li>☐ Use signals for node communication</li>
+            <li>☐ Type hint your variables and functions</li>
+        </ul>
+    </div>
+
+</body>
+</html>
