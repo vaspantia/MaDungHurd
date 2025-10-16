@@ -1,48 +1,88 @@
 extends CharacterBody2D
 
 
-const player_move_speed = 300;
+const player_move_speed = 100;
+const player_sprint_mult = 1.8;
+const player_acceleration = 100;
+const player_decceleration = 100;
+const player_velocity_power = 0.8;
+
 var player_current_move_direction = "front";
 
-
+const dash_force = 1000;
+var dash_is_ready: bool = true;
 
 func _physics_process(delta: float):
-	handel_movement_and_move_animation()
+	handel_movement_and_move_animation(delta)
 	
 	
-func handel_movement_and_move_animation():
+func handel_movement_and_move_animation(delta):
 	
-	velocity = Vector2.ZERO;
+	var input_velocity = Vector2.ZERO;
+	
+	if Input.is_action_pressed("player_move_up"):
+		input_velocity.y -= 1;
 
-	var is_moving = 0;
 	
-	if Input.is_action_pressed("ui_up"):
-		velocity.y -= player_move_speed;
-		player_current_move_direction = "back"; 
-		is_moving = 1;
+	if Input.is_action_pressed("player_move_down"):
+		input_velocity.y += 1;
+
 	
+	if Input.is_action_pressed("player_move_right"):
+		input_velocity.x += 1;
+
 	
-	if Input.is_action_pressed("ui_down"):
-		velocity.y += player_move_speed;
-		player_current_move_direction = "front";
-		is_moving = 1;
+	if Input.is_action_pressed("player_move_left"):
+		input_velocity.x -= 1;
 	
+	var input_velocity_mult = 1;
+	if Input.is_action_pressed("player_sprint"):
+		input_velocity_mult = player_sprint_mult;
+		
+		
+	input_velocity = input_velocity.normalized();
 	
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += player_move_speed;
-		player_current_move_direction = "right";
-		is_moving = 1;
+	play_move_animation(input_velocity, input_velocity_mult);
 	
-	
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= player_move_speed;
-		player_current_move_direction = "left";
-		is_moving = 1;
-	
-	play_move_animation(is_moving);
+	velocity = calc_player_move_velocity(delta, input_velocity, input_velocity_mult);
+
+
+	if Input.is_action_just_pressed("player_dash") and dash_is_ready:
+		dash_is_ready = false;
+		$Dash_coolcown.start();
+		velocity = input_velocity*dash_force;
+		
 	
 	move_and_slide()
+
+
+
+
+func calc_player_move_velocity(delta, input_velocity, input_velocity_mult):
 	
+	velocity.x = calc_player_axic_velocity(delta, input_velocity.x,velocity.x,input_velocity_mult);
+	velocity.y = calc_player_axic_velocity(delta, input_velocity.y,velocity.y,input_velocity_mult);
+	
+	return velocity;
+	
+	
+func calc_player_axic_velocity(delta, input_velocity, _velocity, input_velocity_mult):
+	
+	var target_speed = input_velocity * player_move_speed * input_velocity_mult;
+	
+	var speed_dif = target_speed - _velocity;
+	
+	var acceleration_rate = player_acceleration if(abs(target_speed) > 0.01) else player_decceleration
+	
+	var movement = pow(abs(speed_dif) * acceleration_rate, player_velocity_power) * sign(speed_dif);
+	
+	return _velocity + movement * delta
+	
+
+
+func _on_dash_coolcown_timeout() -> void:
+	dash_is_ready = true;
+
 
 
 
@@ -65,7 +105,25 @@ static var ANIMATION_LOOKUP = {
 			7: "side_walk"
 		}
 
-func play_move_animation(is_moving):
+func play_move_animation(input_velocity, input_velocity_mult):
+	
+	var is_moving = 0;
+	
+	if(input_velocity.x != 0):
+		is_moving = 1;
+		if(input_velocity.x > 0):
+			player_current_move_direction = "right";
+		else:
+			player_current_move_direction = "left";
+	elif(input_velocity.y != 0):
+		is_moving = 1;
+		if(input_velocity.y > 0):
+			player_current_move_direction = "front";
+		else:
+			player_current_move_direction = "back";
+		
+	
+	
 	var dir = DIRECTION_LOOKUP[player_current_move_direction];
 
 	var anim = $AnimatedSprite2D;

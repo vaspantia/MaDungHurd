@@ -414,7 +414,6 @@ animations = [{
 }]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-scale = Vector2(10, 10)
 script = ExtResource("1_s25n1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -422,4 +421,12 @@ script = ExtResource("1_s25n1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_w3u7i")
 animation = &"back_idle"
-frame_progress = 0.92897016
+frame = 2
+frame_progress = 0.12361768
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Dash_coolcown" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Dash_coolcown" to="." method="_on_dash_coolcown_timeout"]
