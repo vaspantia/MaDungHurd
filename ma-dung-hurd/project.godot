@@ -11,7 +11,11 @@ config_version=5
 [application]
 
 config/name="MaDungHurd"
+<<<<<<< Updated upstream
 run/main_scene="uid://dr2qkqkynuej8"
+=======
+run/main_scene="uid://beg11nennic1c"
+>>>>>>> Stashed changes
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,6 +24,13 @@ config/icon="res://icon.svg"
 window/size/viewport_width=640
 window/size/viewport_height=360
 window/stretch/mode="viewport"
+
+[input]
+
+move_left={
+"deadzone": 0.2,
+"events": []
+}
 
 [layer_names]
 
