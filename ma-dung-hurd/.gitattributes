@@ -1,2 +1,7 @@
 # Normalize EOL for all files that Git considers text files.
 * text=auto eol=lf
+
+# Godot files that should use union merge strategy to reduce conflicts
+*.tscn merge=union
+*.tres merge=union
+project.godot merge=union
