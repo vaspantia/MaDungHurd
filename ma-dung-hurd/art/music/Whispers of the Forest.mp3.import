@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://57nc3rkh24df"
+path="res://.godot/imported/Whispers of the Forest.mp3-f13a165d60b8ee88b8cb4062051ba6e6.mp3str"
+
+[deps]
+
+source_file="res://art/music/Whispers of the Forest.mp3"
+dest_files=["res://.godot/imported/Whispers of the Forest.mp3-f13a165d60b8ee88b8cb4062051ba6e6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
