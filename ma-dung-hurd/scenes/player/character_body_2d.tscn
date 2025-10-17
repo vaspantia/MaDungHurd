@@ -1,6 +1,6 @@
 [gd_scene load_steps=61 format=3 uid="uid://dr2qkqkynuej8"]
 
-[ext_resource type="Script" uid="uid://2p2p1tw6mcr3" path="res://scenes/player/scripts/player.gd" id="1_s25n1"]
+[ext_resource type="Script" uid="uid://2p2p1tw6mcr3" path="res://scenes/player/scripts/player.gd" id="1_iux3d"]
 [ext_resource type="Texture2D" uid="uid://dpnbgmics4nnw" path="res://art/characters/player.png" id="2_s25n1"]
 [ext_resource type="Script" uid="uid://iw3rdagoypp8" path="res://scenes/player/scripts/movement_component.gd" id="2_uoqog"]
 [ext_resource type="Script" uid="uid://dc5ocd574ijmu" path="res://scenes/player/scripts/dash_component.gd" id="3_iux3d"]
@@ -421,7 +421,7 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s25n1"]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-script = ExtResource("1_s25n1")
+script = ExtResource("1_iux3d")
 
 [node name="scripts" type="Node" parent="."]
 
