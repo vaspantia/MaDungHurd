@@ -1,4 +1,4 @@
-extends Node2D
+extends Node2D;
 
 @onready var SceneTransitionAnimation = $SceneTransition/AnimationPlayer
 
@@ -14,6 +14,6 @@ func _process(delta) -> void:
 			SceneTransitionAnimation.play("fade_in");
 			await get_tree().create_timer(SceneTransitionAnimation.get_animation("fade_in").get_length()).timeout
 			get_tree().change_scene_to_file("res://scenes/levels/overworld.tscn");
-	
+
 func _on_portal_change_scene_body_entered(body: Player) -> void:
 	entered = true;
