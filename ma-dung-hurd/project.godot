@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="MaDungHurd"
-run/main_scene="uid://beg11nennic1c"
+run/main_scene="uid://c1yr0ca6w4132"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://scripts/global.gd"
 
 [display]
 
@@ -67,6 +71,7 @@ player_attack_secondary={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(255, 21),"global_position":Vector2(264, 69),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+
 [layer_names]
 
 2d_navigation/layer_2="Layer 2"

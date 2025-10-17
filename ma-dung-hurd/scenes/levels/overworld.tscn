@@ -116,6 +116,8 @@ position = Vector2(327, 45)
 
 [node name="portal_change_scene" type="Area2D" parent="."]
 position = Vector2(320, 24)
+collision_layer = 0
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="portal_change_scene"]
 shape = SubResource("RectangleShape2D_ouin7")

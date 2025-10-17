@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1yr0ca6w4132"]
+
+[ext_resource type="Script" uid="uid://byjkm57jvjis8" path="res://scenes/main_scene.gd" id="1_pw63i"]
+
+[node name="MainScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pw63i")
+
+[node name="HUD" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Health" type="Label" parent="HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Health"
+
+[node name="Menu" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Load1" type="Button" parent="Menu"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 105.0
+offset_right = 353.0
+offset_bottom = 136.0
+text = "Load 1"
+
+[node name="Load2" type="Button" parent="Menu"]
+layout_mode = 0
+offset_left = 293.0
+offset_top = 142.0
+offset_right = 352.0
+offset_bottom = 173.0
+text = "Load 2"
+
+[node name="Main2D" type="Node2D" parent="."]
+visible = false
+
+[connection signal="pressed" from="Menu/Load1" to="." method="_on_load_1_pressed"]
+[connection signal="pressed" from="Menu/Load2" to="." method="_on_load_2_pressed"]

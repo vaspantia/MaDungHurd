@@ -8,12 +8,13 @@ func _ready() -> void:
 
 var entered = false;
 
-func _process(delta) -> void:
+func _process(_delta) -> void:
 	if entered == true:
 		#if Input.is_action_just_pressed("ui_accept"):
 			SceneTransitionAnimation.play("fade_in");
 			await get_tree().create_timer(SceneTransitionAnimation.get_animation("fade_in").get_length()).timeout
 			get_tree().change_scene_to_file("res://scenes/levels/overworld.tscn");
 
-func _on_portal_change_scene_body_entered(body: Player) -> void:
-	entered = true;
+func _on_portal_change_scene_body_entered(body: PhysicsBody2D) -> void:
+	if body is Player:
+		entered = true;
