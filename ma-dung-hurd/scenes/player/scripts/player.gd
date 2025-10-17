@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Player;
+
 @onready var movement_component: MovementComponent = $scripts/MovementComponent;
 @onready var dash_component: DashComponent = $scripts/DashComponent;
 @onready var animation_component: AnimationComponent = $scripts/AnimationComponent;
