@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+class_name Player
 
 const player_move_speed = 100;
 const player_sprint_mult = 1.8;
