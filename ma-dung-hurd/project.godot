@@ -74,7 +74,13 @@ player_attack_secondary={
 
 [layer_names]
 
+2d_physics/layer_1="Envirement1"
+2d_physics/layer_2="Envirement2"
 2d_navigation/layer_2="Layer 2"
+2d_physics/layer_3="Envirement3"
+2d_physics/layer_4="Portals"
+2d_physics/layer_5="Player"
+2d_physics/layer_6="Enemy"
 
 [rendering]
 

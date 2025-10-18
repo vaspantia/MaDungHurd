@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://ck3jdqqhxd6g" path="res://scenes/player/scripts/hand_component.gd" id="3_yqqr5"]
 [ext_resource type="Script" uid="uid://l3ac73g6w8ll" path="res://scenes/player/scripts/animation_component.gd" id="4_adwln"]
 [ext_resource type="PackedScene" uid="uid://dpkyh3u40l3by" path="res://scenes/weapons/sword.tscn" id="4_uoqog"]
-[ext_resource type="Script" uid="uid://cp50wos2o1t50" path="res://scripts/combat/health_component.gd" id="5_o1d46"]
+[ext_resource type="Script" uid="uid://cp50wos2o1t50" path="res://scenes/player/scripts/health_component.gd" id="5_o1d46"]
 [ext_resource type="Script" uid="uid://bljoeea7vny6a" path="res://scripts/combat/hurt_box.gd" id="8_adwln"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lxlh8"]
@@ -427,7 +427,7 @@ radius = 4.0
 height = 16.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
-collision_layer = 8
+collision_layer = 0
 script = ExtResource("1_iux3d")
 
 [node name="scripts" type="Node" parent="."]
@@ -443,7 +443,6 @@ script = ExtResource("4_adwln")
 
 [node name="HealthComponent" type="Node" parent="scripts"]
 script = ExtResource("5_o1d46")
-max_health = null
 
 [node name="PlayerAnimation" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_w3u7i")
@@ -470,8 +469,6 @@ HAND_DISTANCE_FROM_PLAYER = 5
 [node name="Sword" parent="HandRoot/Hand" instance=ExtResource("4_uoqog")]
 
 [node name="HurtBox" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
-collision_layer = 16
-collision_mask = 0
 script = ExtResource("8_adwln")
 health_component = NodePath("../scripts/HealthComponent")
 metadata/_custom_type_script = "uid://bljoeea7vny6a"

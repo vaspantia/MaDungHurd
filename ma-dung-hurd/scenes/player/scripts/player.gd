@@ -20,7 +20,18 @@ func _ready() -> void:
 		push_error("Player.gd error: Missing AnimationComponent");
 	if not hand_component:
 		push_error("Player.gd error: Missing HandComponent");
+	#_enter_global_tree();
 
+	
+
+"""
+func _enter_global_tree() -> void:
+	global.player = self;
+
+func _exit_global_tree() -> void:
+	if global.player == self:
+		global.player = null;
+"""
 
 func _physics_process(_delta: float):
 	process_movement_input();

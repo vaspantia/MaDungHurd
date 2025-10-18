@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpkyh3u40l3by"]
+[gd_scene load_steps=9 format=3 uid="uid://dpkyh3u40l3by"]
 
 [ext_resource type="Script" uid="uid://bhtva8vbe1mfq" path="res://scenes/weapons/sword.gd" id="1_3pnln"]
 [ext_resource type="Texture2D" uid="uid://btr8i8ivmvavs" path="res://art/objects/weapon/sword/purple_sword.png" id="1_o616w"]
+[ext_resource type="Script" uid="uid://clvkic8exyhus" path="res://scripts/combat/hit_box.gd" id="3_58ehi"]
 
 [sub_resource type="Animation" id="Animation_58ehi"]
 length = 0.001
@@ -32,14 +33,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SwordCollision:disabled")
+tracks/2/path = NodePath("HitBox/SwordCollision:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_gwb47"]
@@ -101,14 +102,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SwordCollision:disabled")
+tracks/2/path = NodePath("HitBox/SwordCollision:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.35),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true, false]
+"values": [false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_11jj1"]
@@ -117,6 +118,9 @@ _data = {
 &"new_animation": SubResource("Animation_gwb47"),
 &"sword_swing": SubResource("Animation_3pnln")
 }
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwb47"]
+size = Vector2(93.33333, 20)
 
 [node name="Sword" type="Node2D"]
 scale = Vector2(0.3, 0.3)
@@ -133,6 +137,15 @@ libraries = {
 &"": SubResource("AnimationLibrary_11jj1")
 }
 
-[node name="SwordCollision" type="CollisionPolygon2D" parent="."]
-polygon = PackedVector2Array(-9, 10, 82, 11, 82, -12, -9, -12)
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("3_58ehi")
+damage = 20.0
+metadata/_custom_type_script = "uid://clvkic8exyhus"
+
+[node name="SwordCollision" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(36.666664, 0)
+shape = SubResource("RectangleShape2D_gwb47")
+disabled = true
 one_way_collision_margin = 0.0
