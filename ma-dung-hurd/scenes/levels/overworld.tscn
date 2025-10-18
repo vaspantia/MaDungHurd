@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=4 uid="uid://beg11nennic1c"]
+[gd_scene load_steps=19 format=4 uid="uid://beg11nennic1c"]
 
 [ext_resource type="Texture2D" uid="uid://bppa1go7bfbi2" path="res://art/tilesets/overworld/overworld_ground.png" id="1_c3d33"]
 [ext_resource type="Script" uid="uid://bf3npni1bigd4" path="res://scenes/levels/overworld.gd" id="1_ftdat"]
 [ext_resource type="Texture2D" uid="uid://cudifmidhjo56" path="res://icon.svg" id="2_ftdat"]
 [ext_resource type="PackedScene" uid="uid://dr2qkqkynuej8" path="res://scenes/player/character_body_2d.tscn" id="3_id15u"]
 [ext_resource type="PackedScene" uid="uid://dybcke016skcj" path="res://scenes/levels/scene_transition.tscn" id="5_ftdat"]
+[ext_resource type="PackedScene" uid="uid://5b6vrqrkp0uu" path="res://scenes/enemies/enemy.tscn" id="6_id15u"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rfwqe"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
@@ -116,10 +117,56 @@ position = Vector2(327, 45)
 
 [node name="portal_change_scene" type="Area2D" parent="."]
 position = Vector2(320, 24)
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="portal_change_scene"]
 shape = SubResource("RectangleShape2D_ouin7")
 
 [node name="SceneTransition" parent="." instance=ExtResource("5_ftdat")]
+
+[node name="Enemy" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy2" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(474, 120)
+
+[node name="Enemy3" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy4" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy5" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy6" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy7" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy8" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy9" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(474, 120)
+
+[node name="Enemy10" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy11" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy12" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy13" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy14" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
+
+[node name="Enemy15" parent="." instance=ExtResource("6_id15u")]
+position = Vector2(237, 60)
 
 [connection signal="body_entered" from="portal_change_scene" to="." method="_on_portal_change_scene_body_entered"]

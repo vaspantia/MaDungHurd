@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://mf1h4oqp7so0" path="res://scenes/levels/dungeon_1.gd" id="1_2slkm"]
 [ext_resource type="Texture2D" uid="uid://bppa1go7bfbi2" path="res://art/tilesets/overworld/overworld_ground.png" id="1_a3eky"]
 [ext_resource type="Texture2D" uid="uid://cudifmidhjo56" path="res://icon.svg" id="2_ikut4"]
-[ext_resource type="PackedScene" path="res://scenes/player/character_body_2d.tscn" id="3_mbcc0"]
+[ext_resource type="PackedScene" uid="uid://dr2qkqkynuej8" path="res://scenes/player/character_body_2d.tscn" id="3_mbcc0"]
 [ext_resource type="PackedScene" uid="uid://dybcke016skcj" path="res://scenes/levels/scene_transition.tscn" id="5_6uevm"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rfwqe"]
@@ -116,6 +116,7 @@ position = Vector2(301, 182)
 
 [node name="Portal_change_scene" type="Area2D" parent="."]
 position = Vector2(320, 24)
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Portal_change_scene"]
 position = Vector2(-17, 145)
