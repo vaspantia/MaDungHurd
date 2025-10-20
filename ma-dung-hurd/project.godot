@@ -17,7 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://scripts/global.gd"
+Global="*res://scripts/globals/global.gd"
+GlobalPlayerManager="*res://scripts/globals/global_player_manager.gd"
+GlobalLevelManager="*res://scripts/globals/global_level_manager.gd"
+SceneTransition="*res://scenes/GUI/scene_transition/scene_transition.tscn"
 
 [display]
 

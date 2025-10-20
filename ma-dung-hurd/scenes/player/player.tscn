@@ -420,11 +420,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s25n1"]
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o1d46"]
 radius = 4.0
 height = 16.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5gtgg"]
+size = Vector2(12, 4)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 8
@@ -451,13 +452,6 @@ animation = &"back_idle"
 frame = 2
 frame_progress = 0.12361768
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-light_mask = 0
-visibility_layer = 0
-position = Vector2(0, 15)
-scale = Vector2(0.45, 0.14)
-shape = SubResource("CapsuleShape2D_s25n1")
-
 [node name="CameraPlayer" type="Camera2D" parent="."]
 
 [node name="HandRoot" type="Node2D" parent="."]
@@ -479,3 +473,7 @@ metadata/_custom_type_script = "uid://bljoeea7vny6a"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(0, 9)
 shape = SubResource("CapsuleShape2D_o1d46")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_5gtgg")

@@ -44,7 +44,6 @@ offset_bottom = 173.0
 text = "Load 2"
 
 [node name="Main2D" type="Node2D" parent="."]
-visible = false
 
 [connection signal="pressed" from="Menu/Load1" to="." method="_on_load_1_pressed"]
 [connection signal="pressed" from="Menu/Load2" to="." method="_on_load_2_pressed"]
