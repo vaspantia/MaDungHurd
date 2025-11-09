@@ -687,7 +687,7 @@ tracks/1/path = NodePath("HandRoot")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.14999998, 0.85),
+"times": PackedFloat32Array(0.14999998, 0.45),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [true],
@@ -731,7 +731,7 @@ input_1/reset = true
 
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_yhlsn"]
 filter_enabled = true
-filters = ["CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmL/ArmL:rotation", "CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmL:rotation", "HandRoot"]
+filters = ["CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmL/ArmL:rotation", "CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmL:rotation"]
 fadein_time = 0.3
 fadeout_time = 0.3
 
@@ -744,7 +744,7 @@ input_0/reset = true
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_duhln"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_fqf76"]
-graph_offset = Vector2(-427.77344, 337.62683)
+graph_offset = Vector2(-789.2488, 155.76068)
 nodes/OneShot/node = SubResource("AnimationNodeOneShot_yhlsn")
 nodes/OneShot/position = Vector2(80, 160)
 nodes/moveBlend/node = SubResource("AnimationNodeBlend2_duhln")
@@ -785,9 +785,8 @@ script = ExtResource("2_uoqog")
 [node name="DashComponent" type="Node" parent="scripts"]
 script = ExtResource("3_iux3d")
 
-[node name="AnimationComponent" type="Node" parent="scripts" node_paths=PackedStringArray("HandRoot", "ANIMATION_TREE")]
+[node name="AnimationComponent" type="Node" parent="scripts" node_paths=PackedStringArray("ANIMATION_TREE")]
 script = ExtResource("4_adwln")
-HandRoot = NodePath("../../HandRoot")
 ANIMATION_TREE = NodePath("../../CharectorSkeleton/AnimationPlayers/AnimationTree")
 
 [node name="HealthComponent" type="Node" parent="scripts"]
@@ -810,76 +809,83 @@ texture = ExtResource("6_g82dj")
 [node name="Outline" type="Node2D" parent="CharectorSkeleton/Sprites/Front"]
 
 [node name="OutlineArmL" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Outline"]
-position = Vector2(10.921208, 28.575912)
-rotation = 0.14604233
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(11.923912, 28.728025)
+rotation = 0.04154535
+scale = Vector2(0.99963284, 0.99963284)
 texture = ExtResource("7_0hdhd")
 
 [node name="OutlineArmR" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Outline"]
-position = Vector2(-11.922588, 28.734392)
-rotation = -0.04294574
+position = Vector2(-10.886383, 28.58627)
+rotation = -0.15202576
+scale = Vector2(0.9996338, 0.9996338)
 texture = ExtResource("8_3opq5")
 
 [node name="OutlineHead" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Outline"]
-position = Vector2(-0.3663869, 10.502796)
-rotation = -0.015266714
+position = Vector2(0.35697508, 10.508474)
+rotation = 0.0148781175
+scale = Vector2(0.99965465, 0.99965465)
 texture = ExtResource("9_l4sc2")
 
 [node name="OutlineLegL" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Outline"]
-position = Vector2(5.938236, 30.40887)
-rotation = -0.015266714
-scale = Vector2(1, 0.9250963)
+position = Vector2(6.0576887, 30.590456)
+rotation = 0.014878118
+scale = Vector2(0.999809, 0.999809)
 texture = ExtResource("10_eowst")
 
 [node name="OutlineLegR" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Outline"]
-position = Vector2(-6.060365, 30.592064)
-rotation = -0.015266714
+position = Vector2(-5.938691, 30.411957)
+rotation = 0.014878118
+scale = Vector2(0.999809, 0.92864317)
 texture = ExtResource("11_44q4y")
 
 [node name="OutlineTorso" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Outline"]
-position = Vector2(-0.108759396, 27.376598)
-rotation = -0.030551739
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(0.10631781, 27.35461)
+rotation = 0.029756235
+scale = Vector2(0.999809, 0.999809)
 texture = ExtResource("12_3s84d")
 
 [node name="Parts" type="Node2D" parent="CharectorSkeleton/Sprites/Front"]
 
 [node name="LineupLegR" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Parts"]
 z_index = 1
-position = Vector2(-6.060365, 30.592064)
-rotation = -0.015266714
+position = Vector2(-5.938691, 30.411957)
+rotation = 0.014878118
+scale = Vector2(0.999809, 0.8719654)
 texture = ExtResource("9_ydrle")
 
 [node name="LineupLegL" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Parts"]
 z_index = 1
-position = Vector2(5.938236, 30.40887)
-rotation = -0.015266714
-scale = Vector2(1, 0.86863494)
+position = Vector2(6.0576887, 30.590456)
+rotation = 0.014878118
+scale = Vector2(0.999809, 0.999809)
 texture = ExtResource("10_ktu2m")
 
 [node name="LineupTorso" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Parts"]
 z_index = 1
-position = Vector2(-0.108759396, 27.376598)
-rotation = -0.030551739
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(0.10631781, 27.35461)
+rotation = 0.029756235
+scale = Vector2(0.999809, 0.999809)
 texture = ExtResource("11_g82dj")
 
 [node name="LineupHead" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Parts"]
 z_index = 1
-position = Vector2(-0.3663869, 10.502796)
-rotation = -0.015266714
+position = Vector2(0.35697508, 10.508474)
+rotation = 0.0148781175
+scale = Vector2(0.99965465, 0.99965465)
 texture = ExtResource("12_ei00l")
 
 [node name="LineupArmL" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Parts"]
 z_index = 2
-position = Vector2(10.921208, 28.575912)
-rotation = 0.14604233
-scale = Vector2(0.99999994, 0.99999994)
+position = Vector2(11.923912, 28.728025)
+rotation = 0.04154535
+scale = Vector2(0.99963284, 0.99963284)
 texture = ExtResource("13_pcybn")
 
 [node name="LineupArmR" type="Sprite2D" parent="CharectorSkeleton/Sprites/Front/Parts"]
-position = Vector2(-11.922588, 28.734392)
-rotation = -0.04294574
+z_index = 1
+position = Vector2(-10.886383, 28.58627)
+rotation = -0.15202576
+scale = Vector2(0.9996338, 0.9996338)
 texture = ExtResource("14_58txa")
 
 [node name="CharectorSkeleton" type="Skeleton2D" parent="CharectorSkeleton"]
@@ -916,9 +922,6 @@ remote_path = NodePath("../../../../../../Sprites/Front/Outline/OutlineHead")
 [node name="HeadHat" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso/Head"]
 position = Vector2(0, -13)
 rest = Transform2D(1, 0, 0, 1, 0, -13)
-auto_calculate_length_and_angle = false
-length = 16.0
-bone_angle = 0.0
 
 [node name="ArmR" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso"]
 position = Vector2(-10, -12)
@@ -934,9 +937,6 @@ remote_path = NodePath("../../../../../../Sprites/Front/Outline/OutlineArmR")
 [node name="HandR" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmR"]
 position = Vector2(0, 17)
 rest = Transform2D(1, 0, 0, 1, 0, 17)
-auto_calculate_length_and_angle = false
-length = 16.0
-bone_angle = 0.0
 
 [node name="ArmL" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso"]
 position = Vector2(10, -12)
@@ -952,17 +952,13 @@ remote_path = NodePath("../../../../../../Sprites/Front/Outline/OutlineArmL")
 [node name="HandL" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmL"]
 position = Vector2(0, 17)
 rest = Transform2D(1, 0, 0, 1, 0, 17)
-auto_calculate_length_and_angle = false
-length = 16.0
-bone_angle = 0.0
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmL/HandL" node_paths=PackedStringArray("handRoot")]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso/ArmL/HandL"]
 z_index = 1
 position = Vector2(-1.235, -1.935)
 rotation = -3.0717795
 scale = Vector2(0.595, 1)
 script = ExtResource("19_l4sc2")
-handRoot = NodePath("../../../../../../../HandRoot")
 
 [node name="LegR" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso"]
 position = Vector2(-4, 6)
@@ -978,9 +974,6 @@ remote_path = NodePath("../../../../../../Sprites/Front/Outline/OutlineLegR")
 [node name="FootR" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso/LegR"]
 position = Vector2(0, 16)
 rest = Transform2D(1, 0, 0, 1, 0, 16)
-auto_calculate_length_and_angle = false
-length = 16.0
-bone_angle = 0.0
 
 [node name="LegL" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso"]
 position = Vector2(4, 6)
@@ -996,9 +989,6 @@ remote_path = NodePath("../../../../../../Sprites/Front/Outline/OutlineLegL")
 [node name="FootL" type="Bone2D" parent="CharectorSkeleton/CharectorSkeleton/Hip/Torso/LegL"]
 position = Vector2(0, 16)
 rest = Transform2D(1, 0, 0, 1, 0, 16)
-auto_calculate_length_and_angle = false
-length = 16.0
-bone_angle = 0.0
 
 [node name="Positioners" type="Node2D" parent="CharectorSkeleton"]
 
@@ -1042,9 +1032,9 @@ parameters/Movment/current_index = 0
 parameters/Blend/current_state = ""
 parameters/Blend/transition_request = ""
 parameters/Blend/current_index = -1
-parameters/OneShots/current_state = "Swing"
+parameters/OneShots/current_state = ""
 parameters/OneShots/transition_request = ""
-parameters/OneShots/current_index = 0
+parameters/OneShots/current_index = -1
 parameters/MoceScale/scale = 1.0
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
@@ -1064,9 +1054,11 @@ metadata/_custom_type_script = "uid://bljoeea7vny6a"
 position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_o1d46")
 
-[node name="HandRoot" type="Node2D" parent="."]
+[node name="HandRoot" type="Node2D" parent="." node_paths=PackedStringArray("animation_component")]
 position = Vector2(10, -1.5)
 script = ExtResource("3_yqqr5")
+animation_component = NodePath("../scripts/AnimationComponent")
+HAND_DISTANCE_FROM_PLAYER = 20
 
 [node name="Sword" parent="HandRoot" instance=ExtResource("4_uoqog")]
 z_index = 1

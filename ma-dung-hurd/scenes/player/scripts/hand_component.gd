@@ -2,38 +2,51 @@ extends Node2D
 
 class_name HandComponent;
 
-@export var HAND_DISTANCE_FROM_PLAYER = 10;
-
-var HAND_NODE: Node2D;
-
 var current_weapon: Node2D;
 
+var current_weapon_cooldown: Cooldown;
 
+signal no_weapon_found();
 
-func _ready() -> void:
-	HAND_NODE = $Hand;
-	if not HAND_NODE:
-		push_error("HandComponent error: Can't find Hand node");
-		set_process(false);
-		return;
+signal weapon_changed(new_weapon: Node2D);
+
+signal attack_performed(attack_info: Dictionary);
+
+signal hitbox_state_changed(state: bool);
+
 	
-	current_weapon = HAND_NODE.get_child(0);
-	if not current_weapon:
-		push_error("HandComponent error: No weapon found in Hand node. Not even a fucking Hand!!");
-		set_process(false);
+func _ready() -> void:
+	return;
+	
+func attatch_weapon(_weapon_instance, _weapon_cooldown) -> void:
+	
+	if not _weapon_instance || not _weapon_cooldown:
 		return;
 
-func _physics_process(_delta: float):
-	if not HAND_NODE:
-		return;
-	var mouse_relative_pos = get_local_mouse_position();
-	HAND_NODE.position = mouse_relative_pos.normalized() * HAND_DISTANCE_FROM_PLAYER;
-	HAND_NODE.rotation = mouse_relative_pos.angle();
+	
+	current_weapon = _weapon_instance;
+	current_weapon_cooldown = _weapon_cooldown;
+	
+	weapon_changed.emit(current_weapon);
+
+	return;
 
 
 func attack_primary():
-	if current_weapon and current_weapon.has_method("attack_primary"):
-		current_weapon.attack_primary();
-	else:
-		push_error("HandComponent error: Current weapon has no attack_primary method");
-	pass
+	
+	if not current_weapon:
+		no_weapon_found.emit();
+		return;
+		
+	if not current_weapon_cooldown.is_ready():
+		return;
+
+	attack_performed.emit({"type": "primary", "weapon": current_weapon});
+
+
+
+
+func Set_weapon_hitbox(_state: bool) -> void:
+	print("Setting weapon hitbox state to: ", _state);
+	hitbox_state_changed.emit(_state);
+	

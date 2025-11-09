@@ -36,7 +36,7 @@ func _exit_global_tree() -> void:
 func _physics_process(_delta: float):
 	process_movement_input();
 
-	animation_component.play_move_animation(input_velocity, is_sprinting);
+	animation_component.play_animation(velocity, input_velocity, is_sprinting);
 	
 func _process(_delta: float):
 	process_attack_input();
@@ -73,6 +73,7 @@ func process_movement_input():
 
 func process_attack_input():
 	if not hand_component:
+		print_debug("der er ikke nogen hand component");
 		return;
 		
 	if Input.is_action_just_pressed("player_attack_primary"):
