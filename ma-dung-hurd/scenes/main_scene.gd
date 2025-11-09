@@ -6,7 +6,8 @@ extends Control
 var level_instance: Node2D
 
 func _ready() -> void:
-	Global.main_screen = self
+	#Global.main_screen = self
+	pass
 
 func unload_level() -> void:
 	if is_instance_valid(level_instance):

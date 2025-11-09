@@ -774,6 +774,10 @@ height = 54.0
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5gtgg"]
+size = Vector2(12, 4)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 8
 script = ExtResource("1_iux3d")
 
@@ -804,6 +808,7 @@ modulate = Color(0, 0, 0, 0.23137255)
 position = Vector2(0, 56)
 scale = Vector2(0.28749996, 0.11392404)
 texture = ExtResource("6_g82dj")
+[node name="CameraPlayer" type="Camera2D" parent="."]
 
 [node name="Front" type="Node2D" parent="CharectorSkeleton/Sprites"]
 
@@ -1076,3 +1081,6 @@ skew = 0.05931413
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_enabled = false
 script = ExtResource("13_ktu2m")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_5gtgg")

@@ -105,28 +105,23 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAEAAAAAAAkAAQAAAAE
 tile_set = SubResource("TileSet_t7yqd")
 
 [node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(96, 16)
-scale = Vector2(0.24999997, 0.24999997)
+position = Vector2(320, 32)
+scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_ftdat")
 
 [node name="Icon2" type="Sprite2D" parent="."]
-position = Vector2(448, 15.999998)
-scale = Vector2(0.2500003, 0.24999997)
+position = Vector2(448, 32)
+scale = Vector2(0.19968751, 0.19968751)
 texture = ExtResource("2_ftdat")
 
-[node name="portal_change_scene" type="Area2D" parent="."]
-position = Vector2(320, 24)
-collision_layer = 0
-collision_mask = 9
 [node name="LevelTransition" parent="." instance=ExtResource("4_id15u")]
-position = Vector2(96, 32)
+position = Vector2(320, 32)
 level = "uid://c1yr0ca6w4132"
-size = 1
 
 [node name="LevelTransition2" parent="." instance=ExtResource("4_id15u")]
 position = Vector2(448, 32)
 level = "uid://bo131jevuri7i"
-size = 1
+side = 0
 
 [node name="Enemy" parent="." instance=ExtResource("6_id15u")]
 position = Vector2(237, 60)
